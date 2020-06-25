@@ -2,3 +2,6 @@
 spring:
   resources:
     add-mappings: true
+  data:
+    rest:
+      base-path: /api
