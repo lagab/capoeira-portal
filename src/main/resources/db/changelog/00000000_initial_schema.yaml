@@ -1,4 +1,166 @@
 databaseChangeLog:
-  - changeSet:
-      id: create-table-user
-      author: lagab
+- changeSet:
+    id: 1593766930040-4
+    author: lagab (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              nullable: false
+              primaryKey: true
+              primaryKeyName: app_authorityPK
+            name: name
+            type: VARCHAR(50)
+        tableName: app_authority
+    - loadData:
+        file:  db/changelog/authorities.csv
+        encoding:  UTF-8
+        separator:  ;
+        tableName:  app_authority
+- changeSet:
+    id: 1593766930040-5
+    author: lagab (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            autoIncrement: true
+            constraints:
+              nullable: false
+              primaryKey: true
+              primaryKeyName: app_userPK
+            name: id
+            type: BIGINT
+        - column:
+            constraints:
+              nullable: false
+            name: created_by
+            type: VARCHAR(50)
+        - column:
+            name: created_date
+            type: timestamp
+        - column:
+            name: last_modified_by
+            type: VARCHAR(50)
+        - column:
+            name: last_modified_date
+            type: timestamp
+        - column:
+            constraints:
+              nullable: false
+            name: activated
+            type: BIT
+        - column:
+            name: activation_key
+            type: VARCHAR(20)
+        - column:
+            name: email
+            type: VARCHAR(254)
+        - column:
+            name: first_name
+            type: VARCHAR(50)
+        - column:
+            name: image_url
+            type: VARCHAR(256)
+        - column:
+            name: lang_key
+            type: VARCHAR(10)
+        - column:
+            name: last_name
+            type: VARCHAR(50)
+        - column:
+            constraints:
+              nullable: false
+            name: login
+            type: VARCHAR(50)
+        - column:
+            constraints:
+              nullable: false
+            name: password_hash
+            type: VARCHAR(60)
+        - column:
+            name: reset_date
+            type: timestamp
+        - column:
+            name: reset_key
+            type: VARCHAR(20)
+        tableName: app_user
+    - loadData:
+        file:  db/changelog/users.csv
+        encoding:  UTF-8
+        separator:  ;
+        tableName:  app_user
+        columns:
+        -  column:
+            name:  activated
+            type:  boolean
+        -  column:
+            name:  created_date
+            type:  timestamp
+- changeSet:
+    id: 1593766930040-6
+    author: lagab (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              nullable: false
+              primaryKey: true
+            name: user_id
+            type: BIGINT
+        - column:
+            constraints:
+              nullable: false
+              primaryKey: true
+            name: authority_name
+            type: VARCHAR(50)
+        tableName: app_user_authority
+    - loadData:
+        file:  db/changelog/users_authorities.csv
+        encoding:  UTF-8
+        separator:  ;
+        tableName:  app_user_authority
+- changeSet:
+    id: 1593766930040-8
+    author: lagab (generated)
+    changes:
+    - addUniqueConstraint:
+        columnNames: email
+        constraintName: UC_APP_USEREMAIL_COL
+        tableName: app_user
+- changeSet:
+    id: 1593766930040-9
+    author: lagab (generated)
+    changes:
+    - addUniqueConstraint:
+        columnNames: login
+        constraintName: UC_APP_USERLOGIN_COL
+        tableName: app_user
+- changeSet:
+    id: 1593766930040-11
+    author: lagab (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: user_id
+        baseTableName: app_user_authority
+        constraintName: FKfocpjrj1tmhlu9vcfo47nqanp
+        deferrable: false
+        initiallyDeferred: false
+        referencedColumnNames: id
+        referencedTableName: app_user
+        validate: true
+- changeSet:
+    id: 1593766930040-12
+    author: lagab (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: authority_name
+        baseTableName: app_user_authority
+        constraintName: FKi2mlqu6q3ct0fy19j1c83sym3
+        deferrable: false
+        initiallyDeferred: false
+        referencedColumnNames: name
+        referencedTableName: app_authority
+        validate: true
