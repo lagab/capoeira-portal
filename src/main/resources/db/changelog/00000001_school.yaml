@@ -1,0 +1,38 @@
+databaseChangeLog:
+- changeSet:
+    id: 1593897880847-5
+    author: lagab (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            autoIncrement: true
+            constraints:
+              nullable: false
+              primaryKey: true
+              primaryKeyName: schoolPK
+            name: id
+            type: BIGINT
+        - column:
+            name: founder
+            type: VARCHAR(255)
+        - column:
+            name: logo_url
+            type: VARCHAR(255)
+        - column:
+            constraints:
+              nullable: false
+            name: name
+            type: VARCHAR(50)
+        - column:
+            name: style
+            type: VARCHAR(20)
+        tableName: school
+- changeSet:
+    id: 1593897880847-9
+    author: lagab (generated)
+    changes:
+    - addUniqueConstraint:
+        columnNames: name
+        constraintName: UC_SCHOOLNAME_COL
+        tableName: school
