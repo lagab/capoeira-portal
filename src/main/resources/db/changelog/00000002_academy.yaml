@@ -1,0 +1,66 @@
+databaseChangeLog:
+- changeSet:
+    id: 1593897880847-1
+    author: lagab (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            autoIncrement: true
+            constraints:
+              nullable: false
+              primaryKey: true
+              primaryKeyName: AcademyPK
+            name: id
+            type: BIGINT
+        - column:
+            constraints:
+              nullable: false
+            name: created_by
+            type: VARCHAR(50)
+        - column:
+            name: created_date
+            type: TINYBLOB
+        - column:
+            name: last_modified_by
+            type: VARCHAR(50)
+        - column:
+            name: last_modified_date
+            type: TINYBLOB
+        - column:
+            name: logo_url
+            type: VARCHAR(255)
+        - column:
+            constraints:
+              nullable: false
+            name: name
+            type: VARCHAR(50)
+        - column:
+            constraints:
+              nullable: false
+            name: school_id
+            type: BIGINT
+        tableName: Academy
+
+- changeSet:
+    id: 1593897880847-6
+    author: lagab (generated)
+    changes:
+    - addUniqueConstraint:
+        columnNames: name
+        constraintName: UC_ACADEMYNAME_COL
+        tableName: Academy
+- changeSet:
+    id: 1593897880847-10
+    author: lagab (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: school_id
+        baseTableName: Academy
+        constraintName: FK8x0g49iyn0dpdjawlp3y04swl
+        deferrable: false
+        initiallyDeferred: false
+        referencedColumnNames: id
+        referencedTableName: school
+        validate: true
+
