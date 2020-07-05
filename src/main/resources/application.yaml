@@ -5,3 +5,21 @@ spring:
   data:
     rest:
       base-path: /api
+  mail:
+    host: localhost
+    port: 25
+    username:
+    password:
+  thymeleaf:
+    mode: HTML
+# Application properties
+application:
+  clientApp:
+    name: 'capoeiraPortalApp'
+  security:
+    authentication:
+      jwt:
+        base64-secret: ZTc2MjU3YWQyOGFhY2M0NDE4YTZkNDFiMjE5Yjk5YTgxNDQ1NDliYmEwZDBlZWYwODVkNjdhNzVlZDA1ZWRkZTRjZTgxYmViNDljZjI2NmYwY2FlYjNjMWE3MmY2Y2I4OWJlMGVjZTZmZjlkMGEyMjNmZjYzY2UwNGI1ZmNjZjY=
+        # Token is valid 24 hours
+        token-validity-in-seconds: 86400
+        token-validity-in-seconds-for-remember-me: 2592000
