@@ -20,13 +20,16 @@ databaseChangeLog:
             type: VARCHAR(50)
         - column:
             name: created_date
-            type: TINYBLOB
+            type: timestamp
         - column:
             name: last_modified_by
             type: VARCHAR(50)
         - column:
             name: last_modified_date
-            type: TINYBLOB
+            type: timestamp
+        - column:
+              name: visibility
+              type: VARCHAR(20)
         - column:
             name: logo_url
             type: VARCHAR(255)
@@ -40,6 +43,9 @@ databaseChangeLog:
               nullable: false
             name: school_id
             type: BIGINT
+        - column:
+              name: address_id
+              type: BIGINT
         tableName: Academy
 
 - changeSet:
@@ -63,4 +69,16 @@ databaseChangeLog:
         referencedColumnNames: id
         referencedTableName: school
         validate: true
-
+- changeSet:
+    id: 1593897880847-11
+    author: lagab (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: address_id
+        baseTableName: School
+        constraintName: FKaddress_id_academy
+        deferrable: false
+        initiallyDeferred: false
+        referencedColumnNames: id
+        referencedTableName: Address
+        validate: true

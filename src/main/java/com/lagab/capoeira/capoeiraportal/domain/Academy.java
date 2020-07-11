@@ -1,5 +1,10 @@
 package com.lagab.capoeira.capoeiraportal.domain;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.lagab.capoeira.capoeiraportal.domain.enums.Visibility;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -23,26 +28,31 @@ public class Academy extends AbstractAuditingEntity implements Serializable{
     @Column(length = 50, unique = true, nullable = false)
     private String name;
 
-    @Lob
-    @Basic(fetch = FetchType.LAZY)
-    private byte[] logo;
+    @Column(name = "logo_url")
+    private String logoUrl;
 
     @NotNull
     @ManyToOne
     @JoinColumn(name="school_id", nullable=false)
+    @JsonAlias({"school","school_id"})
+    @JsonIgnoreProperties("address")
+    @JsonIdentityInfo(
+            generator = ObjectIdGenerators.PropertyGenerator.class,
+            property = "id"
+    )
     private School school;
 
-    @NotNull
-    private String street;
+    @Enumerated(EnumType.STRING)
+    @Column(length = 20)
+    private Visibility visibility;
 
-    @NotNull
-    private String city;
-
-    @NotNull
-    private String country;
-
-    private Float latitude;
-
-    private Float longitude;
+    @ManyToOne(cascade =  CascadeType.ALL)
+    @JoinColumn(name = "address_id")
+    @JsonAlias({"address","address_id"})
+    @JsonIdentityInfo(
+            generator = ObjectIdGenerators.PropertyGenerator.class,
+            property = "id"
+    )
+    private Address address;
 
 }

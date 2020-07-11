@@ -27,6 +27,9 @@ databaseChangeLog:
         - column:
             name: style
             type: VARCHAR(20)
+        - column:
+              name: address_id
+              type: BIGINT
         tableName: school
 - changeSet:
     id: 1593897880847-9
@@ -36,3 +39,16 @@ databaseChangeLog:
         columnNames: name
         constraintName: UC_SCHOOLNAME_COL
         tableName: school
+- changeSet:
+    id: 1593897880847-10
+    author: lagab (generated)
+    changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: address_id
+            baseTableName: School
+            constraintName: FKaddress_id_school
+            deferrable: false
+            initiallyDeferred: false
+            referencedColumnNames: id
+            referencedTableName: Address
+            validate: true
