@@ -17,6 +17,7 @@ public class ApplicationProperties {
 
     private final ApplicationProperties.Mail mail = new ApplicationProperties.Mail();
     private final ApplicationProperties.Security security = new ApplicationProperties.Security();
+    private final ApplicationProperties.Ehcache ehcache = new ApplicationProperties.Ehcache();
 
     public ApplicationProperties(){
 
@@ -27,6 +28,9 @@ public class ApplicationProperties {
     }
     public ApplicationProperties.Security getSecurity() {
         return this.security;
+    }
+    public ApplicationProperties.Ehcache getEhcache() {
+        return this.ehcache;
     }
 
     public static class Mail {
@@ -129,6 +133,29 @@ public class ApplicationProperties {
                 }
             }
         }
+    }
 
+    public static class Ehcache {
+        private int timeToLiveSeconds = 3600;
+        private long maxEntries = 100L;
+
+        public Ehcache() {
+        }
+
+        public int getTimeToLiveSeconds() {
+            return this.timeToLiveSeconds;
+        }
+
+        public void setTimeToLiveSeconds(int timeToLiveSeconds) {
+            this.timeToLiveSeconds = timeToLiveSeconds;
+        }
+
+        public long getMaxEntries() {
+            return this.maxEntries;
+        }
+
+        public void setMaxEntries(long maxEntries) {
+            this.maxEntries = maxEntries;
+        }
     }
 }

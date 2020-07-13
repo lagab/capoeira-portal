@@ -14,7 +14,7 @@ databaseChangeLog:
             type: VARCHAR(50)
         tableName: app_authority
     - loadData:
-        file:  db/changelog/authorities.csv
+        file:  db/changelog/data/authorities.csv
         encoding:  UTF-8
         separator:  ;
         tableName:  app_authority
@@ -87,7 +87,7 @@ databaseChangeLog:
             type: VARCHAR(20)
         tableName: app_user
     - loadData:
-        file:  db/changelog/users.csv
+        file:  db/changelog/data/users.csv
         encoding:  UTF-8
         separator:  ;
         tableName:  app_user
@@ -118,7 +118,7 @@ databaseChangeLog:
             type: VARCHAR(50)
         tableName: app_user_authority
     - loadData:
-        file:  db/changelog/users_authorities.csv
+        file:  db/changelog/data/users_authorities.csv
         encoding:  UTF-8
         separator:  ;
         tableName:  app_user_authority

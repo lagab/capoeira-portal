@@ -2,6 +2,7 @@ package com.lagab.capoeira.capoeiraportal.web.rest;
 
 import com.lagab.capoeira.capoeiraportal.domain.Academy;
 import com.lagab.capoeira.capoeiraportal.domain.enums.Visibility;
+import com.lagab.capoeira.capoeiraportal.errors.BadRequestAlertException;
 import com.lagab.capoeira.capoeiraportal.service.AcademyQueryService;
 import com.lagab.capoeira.capoeiraportal.service.AcademyService;
 import com.lagab.capoeira.capoeiraportal.service.dto.AcademyCriteria;
@@ -42,6 +43,7 @@ public class AcademyController {
 
     @GetMapping("/{id:.+}")
     public ResponseEntity<Academy> getAcademy(@PathVariable Long id) {
+        log.debug("REST request to get "+ENTITY_NAME+" : {}", id);
         Optional<Academy> academy = academyService.findById(id);
         if(academy.isPresent()){
             return new ResponseEntity<>(academy.get(), HttpStatus.OK);
@@ -62,9 +64,9 @@ public class AcademyController {
 
     @PostMapping("")
     public ResponseEntity<Academy> createAcademy(@RequestBody Academy academy) {
-        log.debug("create "+ENTITY_NAME);
+        log.debug("REST request to save "+ENTITY_NAME+" : {}", academy);
         if( academy.getId() != null ) {
-            log.info(ENTITY_NAME+" should Be Null");
+            throw new BadRequestAlertException("A new contactFolder cannot already have an ID", ENTITY_NAME, "idexists");
         }
 
         Academy result = academyService.create(academy);
@@ -72,17 +74,18 @@ public class AcademyController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Academy> updateAcademy(@RequestBody Academy school) {
-
-        if( !academyService.exists(school.getId()) ) {
+    public ResponseEntity<Academy> updateAcademy(@RequestBody Academy academy) {
+        log.debug("REST request to update "+ENTITY_NAME+" : {}", academy);
+        if( !academyService.exists(academy.getId()) ) {
             return  ResponseEntity.notFound().build();
         }
-        Academy result = academyService.update(school);
+        Academy result = academyService.update(academy);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, result.getId().toString())).body(result);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteAcademy(@PathVariable Long id) {
+        log.debug("REST request to delete "+ENTITY_NAME+" : {}", id);
         Optional<Academy> school = academyService.findById(id);
         if(school.isPresent()) {
             academyService.delete(school.get());
