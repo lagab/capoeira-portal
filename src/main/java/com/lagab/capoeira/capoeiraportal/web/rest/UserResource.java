@@ -3,9 +3,9 @@ package com.lagab.capoeira.capoeiraportal.web.rest;
 
 import com.lagab.capoeira.capoeiraportal.config.Constants;
 import com.lagab.capoeira.capoeiraportal.domain.User;
-import com.lagab.capoeira.capoeiraportal.errors.BadRequestAlertException;
+import com.lagab.capoeira.capoeiraportal.web.rest.errors.BadRequestAlertException;
 import com.lagab.capoeira.capoeiraportal.errors.EmailAlreadyUsedException;
-import com.lagab.capoeira.capoeiraportal.errors.LoginAlreadyUsedException;
+import com.lagab.capoeira.capoeiraportal.web.rest.errors.LoginAlreadyUsedException;
 import com.lagab.capoeira.capoeiraportal.repository.UserRepository;
 import com.lagab.capoeira.capoeiraportal.security.Authorities;
 import com.lagab.capoeira.capoeiraportal.service.MailService;

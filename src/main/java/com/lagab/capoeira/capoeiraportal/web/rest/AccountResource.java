@@ -1,9 +1,9 @@
 package com.lagab.capoeira.capoeiraportal.web.rest;
 
 import com.lagab.capoeira.capoeiraportal.domain.User;
-import com.lagab.capoeira.capoeiraportal.errors.EmailAlreadyUsedException;
-import com.lagab.capoeira.capoeiraportal.errors.InvalidPasswordException;
-import com.lagab.capoeira.capoeiraportal.errors.LoginAlreadyUsedException;
+import com.lagab.capoeira.capoeiraportal.web.rest.errors.EmailAlreadyUsedException;
+import com.lagab.capoeira.capoeiraportal.web.rest.errors.InvalidPasswordException;
+import com.lagab.capoeira.capoeiraportal.web.rest.errors.LoginAlreadyUsedException;
 import com.lagab.capoeira.capoeiraportal.repository.UserRepository;
 import com.lagab.capoeira.capoeiraportal.security.SecurityUtils;
 import com.lagab.capoeira.capoeiraportal.service.MailService;
@@ -26,7 +26,7 @@ import java.util.Optional;
  * REST controller for managing the current user's account.
  */
 @RestController
-@RequestMapping("/account")
+@RequestMapping("/api")
 public class AccountResource {
 
     private static class AccountResourceException extends RuntimeException {
@@ -100,7 +100,7 @@ public class AccountResource {
      * @return the current user.
      * @throws RuntimeException {@code 500 (Internal Server Error)} if the user couldn't be returned.
      */
-    @GetMapping("/  ")
+    @GetMapping("/account")
     public UserDTO getAccount() {
         return userService.getUserWithAuthorities()
             .map(UserDTO::new)
@@ -114,7 +114,7 @@ public class AccountResource {
      * @throws EmailAlreadyUsedException {@code 400 (Bad Request)} if the email is already used.
      * @throws RuntimeException {@code 500 (Internal Server Error)} if the user login wasn't found.
      */
-    @PostMapping("/")
+    @PostMapping("/account")
     public void saveAccount(@Valid @RequestBody UserDTO userDTO) {
         String userLogin = SecurityUtils.getCurrentUserLogin().orElseThrow(() -> new AccountResourceException("Current user login not found"));
         Optional<User> existingUser = userRepository.findOneByEmailIgnoreCase(userDTO.getEmail());
@@ -135,7 +135,7 @@ public class AccountResource {
      * @param passwordChangeDto current and new password.
      * @throws InvalidPasswordException {@code 400 (Bad Request)} if the new password is incorrect.
      */
-    @PostMapping(path = "/change-password")
+    @PostMapping(path = "/account/change-password")
     public void changePassword(@RequestBody PasswordChangeDTO passwordChangeDto) {
         if (!checkPasswordLength(passwordChangeDto.getNewPassword())) {
             throw new InvalidPasswordException();
@@ -148,7 +148,7 @@ public class AccountResource {
      *
      * @param mail the mail of the user.
      */
-    @PostMapping(path = "/reset-password/init")
+    @PostMapping(path = "/account/reset-password/init")
     public void requestPasswordReset(@RequestBody String mail) {
         Optional<User> user = userService.requestPasswordReset(mail);
         if (user.isPresent()) {
@@ -167,7 +167,7 @@ public class AccountResource {
      * @throws InvalidPasswordException {@code 400 (Bad Request)} if the password is incorrect.
      * @throws RuntimeException {@code 500 (Internal Server Error)} if the password could not be reset.
      */
-    @PostMapping(path = "/reset-password/finish")
+    @PostMapping(path = "/account/reset-password/finish")
     public void finishPasswordReset(@RequestBody KeyAndPasswordVM keyAndPassword) {
         if (!checkPasswordLength(keyAndPassword.getNewPassword())) {
             throw new InvalidPasswordException();

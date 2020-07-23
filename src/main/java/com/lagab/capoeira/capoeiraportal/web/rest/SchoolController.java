@@ -1,7 +1,7 @@
 package com.lagab.capoeira.capoeiraportal.web.rest;
 
 import com.lagab.capoeira.capoeiraportal.domain.School;
-import com.lagab.capoeira.capoeiraportal.errors.BadRequestAlertException;
+import com.lagab.capoeira.capoeiraportal.web.rest.errors.BadRequestAlertException;
 import com.lagab.capoeira.capoeiraportal.security.Authorities;
 import com.lagab.capoeira.capoeiraportal.service.SchoolService;
 import com.lagab.capoeira.capoeiraportal.web.rest.util.HeaderUtil;

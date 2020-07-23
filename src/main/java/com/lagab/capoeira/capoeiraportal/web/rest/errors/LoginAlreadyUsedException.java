@@ -1,4 +1,4 @@
-package com.lagab.capoeira.capoeiraportal.errors;
+package com.lagab.capoeira.capoeiraportal.web.rest.errors;
 
 public class LoginAlreadyUsedException extends BadRequestAlertException {
 
