@@ -18,7 +18,7 @@ spring:
   # Uncomment the following line to enable tests against production database type rather than H2, using Testcontainers
   #active: testcontainers
   application:
-    name: capo_portal
+    name: capoeira_portal
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
     url: jdbc:h2:mem:capoeira_portal;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
@@ -58,13 +58,13 @@ spring:
     basename: i18n/messages
   task:
     execution:
-      thread-name-prefix: capo-portal-task-
+      thread-name-prefix: capoeira-portal-task-
       pool:
         core-size: 1
         max-size: 50
         queue-capacity: 10000
     scheduling:
-      thread-name-prefix: capo-portal-scheduling-
+      thread-name-prefix: capoeira-portal-scheduling-
       pool:
         size: 1
   thymeleaf:
@@ -91,3 +91,6 @@ application:
         # Token is valid 24 hours
         token-validity-in-seconds: 86400
         token-validity-in-seconds-for-remember-me: 2592000
+  mail:
+    from: test@localhost
+    base-url: http://127.0.0.1:8080
