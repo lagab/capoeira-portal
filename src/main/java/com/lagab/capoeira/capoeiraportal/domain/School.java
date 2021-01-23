@@ -14,7 +14,7 @@ import java.io.Serializable;
 @Entity
 @Getter
 @Setter
-public class School implements Serializable{
+public class School extends LocalizableEntity implements Serializable{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,8 +34,4 @@ public class School implements Serializable{
     @Enumerated(EnumType.STRING)
     @Column(length = 20)
     private Style style;
-
-    @ManyToOne(cascade =  CascadeType.ALL)
-    @JoinColumn(name = "address_id")
-    private Address address;
 }

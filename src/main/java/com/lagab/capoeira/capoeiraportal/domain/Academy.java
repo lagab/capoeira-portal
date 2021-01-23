@@ -1,9 +1,6 @@
 package com.lagab.capoeira.capoeiraportal.domain;
 
-import com.fasterxml.jackson.annotation.JsonAlias;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.annotation.*;
 import com.lagab.capoeira.capoeiraportal.domain.enums.Visibility;
 import lombok.Getter;
 import lombok.Setter;
@@ -17,7 +14,7 @@ import javax.validation.constraints.Size;
 @Entity
 @Getter
 @Setter
-public class Academy extends AbstractAuditingEntity implements Serializable{
+public class Academy extends AbstractAuditingEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,7 +32,7 @@ public class Academy extends AbstractAuditingEntity implements Serializable{
     @ManyToOne
     @JoinColumn(name="school_id", nullable=false)
     @JsonAlias({"school","school_id"})
-    @JsonIgnoreProperties("address")
+    @JsonProperty("school")
     @JsonIdentityInfo(
             generator = ObjectIdGenerators.PropertyGenerator.class,
             property = "id"
@@ -44,15 +41,19 @@ public class Academy extends AbstractAuditingEntity implements Serializable{
 
     @Enumerated(EnumType.STRING)
     @Column(length = 20)
+    @NotNull
     private Visibility visibility;
 
-    @ManyToOne(cascade =  CascadeType.ALL)
-    @JoinColumn(name = "address_id")
-    @JsonAlias({"address","address_id"})
-    @JsonIdentityInfo(
-            generator = ObjectIdGenerators.PropertyGenerator.class,
-            property = "id"
-    )
-    private Address address;
+    //Address
+    @Column(name="address_1")
+    private String addressLine1;
+    @Column(name="address_2")
+    private String addressLine2;
+    @Column(name="postal_code")
+    private String postalCode;
+    private String city;
+    private String country;
+    private Double latitude;
+    private Double longitude;
 
 }

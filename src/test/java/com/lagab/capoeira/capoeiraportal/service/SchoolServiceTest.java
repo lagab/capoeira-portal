@@ -5,6 +5,7 @@ import com.lagab.capoeira.capoeiraportal.domain.School;
 import com.lagab.capoeira.capoeiraportal.domain.User;
 import com.lagab.capoeira.capoeiraportal.domain.enums.Style;
 import com.lagab.capoeira.capoeiraportal.repository.SchoolRepository;
+import com.lagab.capoeira.capoeiraportal.service.dto.SchoolDto;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -37,7 +38,7 @@ public class SchoolServiceTest {
     @Test
     @Transactional
     public void assertThatSchoolShouldNotCreatedWithoutName() {
-        School schoolToCreate = new School();
+        SchoolDto schoolToCreate = new SchoolDto();
         schoolToCreate.setFounder("Mestre Bimba");
         schoolToCreate.setLogoUrl("http://placehold.it/50x50");
 

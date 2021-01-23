@@ -44,8 +44,26 @@ databaseChangeLog:
             name: school_id
             type: BIGINT
         - column:
-              name: address_id
-              type: BIGINT
+              name: address_1
+              type: VARCHAR(255)
+        - column:
+              name: address_2
+              type: VARCHAR(255)
+        - column:
+              name: postal_code
+              type: VARCHAR(10)
+        - column:
+              name: city
+              type: VARCHAR(128)
+        - column:
+              name: country
+              type: VARCHAR(128)
+        - column:
+              name: latitude
+              type: DOUBLE
+        - column:
+              name: longitude
+              type: DOUBLE
         tableName: Academy
 
 - changeSet:
@@ -68,17 +86,4 @@ databaseChangeLog:
         initiallyDeferred: false
         referencedColumnNames: id
         referencedTableName: school
-        validate: true
-- changeSet:
-    id: 1593897880847-11
-    author: lagab (generated)
-    changes:
-    - addForeignKeyConstraint:
-        baseColumnNames: address_id
-        baseTableName: School
-        constraintName: FKaddress_id_academy
-        deferrable: false
-        initiallyDeferred: false
-        referencedColumnNames: id
-        referencedTableName: Address
         validate: true

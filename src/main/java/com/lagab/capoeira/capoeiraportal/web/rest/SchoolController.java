@@ -1,6 +1,6 @@
 package com.lagab.capoeira.capoeiraportal.web.rest;
 
-import com.lagab.capoeira.capoeiraportal.domain.School;
+import com.lagab.capoeira.capoeiraportal.service.dto.SchoolDto;
 import com.lagab.capoeira.capoeiraportal.web.rest.errors.BadRequestAlertException;
 import com.lagab.capoeira.capoeiraportal.security.Authorities;
 import com.lagab.capoeira.capoeiraportal.service.SchoolService;
@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("api/school")
+@RequestMapping("/school")
 public class SchoolController {
 
     private final Logger log = LoggerFactory.getLogger(SchoolController.class);
@@ -30,9 +30,9 @@ public class SchoolController {
     }
 
     @GetMapping("/{id:.+}")
-    public ResponseEntity<School> getSchool(@PathVariable Long id) {
+    public ResponseEntity<SchoolDto> getSchool(@PathVariable Long id) {
         log.debug("REST request to get "+ENTITY_NAME+" : {}", id);
-        Optional<School> school = schoolService.findById(id);
+        Optional<SchoolDto> school = schoolService.findById(id);
         if(school.isPresent()){
             return new ResponseEntity<>(school.get(),HttpStatus.OK);
         }else {
@@ -41,32 +41,32 @@ public class SchoolController {
     }
 
     @GetMapping("")
-    public ResponseEntity<List<School>> getAllSchool() {
+    public ResponseEntity<List<SchoolDto>> getAllSchool() {
         log.debug("REST request to get all "+ENTITY_NAME+" ");
-        List<School> lists = schoolService.findAll();
+        List<SchoolDto> lists = schoolService.findAll();
         return ResponseEntity.ok().body(lists);
     }
 
     @PostMapping("")
     @PreAuthorize("hasAuthority(\"" + Authorities.ADMIN + "\")")
-    public ResponseEntity<School> createSchool(@RequestBody School school) {
+    public ResponseEntity<SchoolDto> createSchool(@RequestBody SchoolDto school) {
         log.debug("REST request to save "+ENTITY_NAME+" : {}", school);
         if( school.getId() != null ) {
             throw new BadRequestAlertException("A new contactFolder cannot already have an ID", ENTITY_NAME, "idexists");
         }
 
-        School result = schoolService.create(school);
+        SchoolDto result = schoolService.create(school);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString())).body(result);
     }
 
     @PutMapping("/{id}")
     @PreAuthorize("hasAuthority(\"" + Authorities.ADMIN + "\")")
-    public ResponseEntity<School> updateSchool(@RequestBody School school) {
+    public ResponseEntity<SchoolDto> updateSchool(@RequestBody SchoolDto school) {
         log.debug("REST request to update "+ENTITY_NAME+" : {}", school);
         if( !schoolService.exists(school.getId()) ) {
             return  ResponseEntity.notFound().build();
         }
-        School result = schoolService.update(school);
+        SchoolDto result = schoolService.update(school);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, result.getId().toString())).body(result);
     }
 
@@ -74,9 +74,9 @@ public class SchoolController {
     @PreAuthorize("hasAuthority(\"" + Authorities.ADMIN + "\")")
     public ResponseEntity<Void> deleteSchool(@PathVariable Long id) {
         log.debug("REST request to delete "+ENTITY_NAME+" : {}", id);
-        Optional<School> school = schoolService.findById(id);
+        Optional<SchoolDto> school = schoolService.findById(id);
         if(school.isPresent()) {
-            schoolService.delete(school.get());
+            schoolService.delete(school.get().getId());
             return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
         } else {
             return ResponseEntity.notFound().build();

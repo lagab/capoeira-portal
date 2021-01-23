@@ -1,8 +1,9 @@
 package com.lagab.capoeira.capoeiraportal.web.rest;
 
-import com.lagab.capoeira.capoeiraportal.domain.Academy;
 import com.lagab.capoeira.capoeiraportal.domain.enums.Visibility;
-import com.lagab.capoeira.capoeiraportal.errors.BadRequestAlertException;
+import com.lagab.capoeira.capoeiraportal.service.dto.AcademyDto;
+import com.lagab.capoeira.capoeiraportal.web.rest.errors.BadRequestAlertException;
+import com.lagab.capoeira.capoeiraportal.security.SecurityUtils;
 import com.lagab.capoeira.capoeiraportal.service.AcademyQueryService;
 import com.lagab.capoeira.capoeiraportal.service.AcademyService;
 import com.lagab.capoeira.capoeiraportal.service.dto.AcademyCriteria;
@@ -19,7 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("api/academy")
+@RequestMapping("/academy")
 public class AcademyController {
 
     private final Logger log = LoggerFactory.getLogger(SchoolController.class);
@@ -42,9 +43,9 @@ public class AcademyController {
     }
 
     @GetMapping("/{id:.+}")
-    public ResponseEntity<Academy> getAcademy(@PathVariable Long id) {
+    public ResponseEntity<AcademyDto> getAcademy(@PathVariable Long id) {
         log.debug("REST request to get "+ENTITY_NAME+" : {}", id);
-        Optional<Academy> academy = academyService.findById(id);
+        Optional<AcademyDto> academy = academyService.findById(id);
         if(academy.isPresent()){
             return new ResponseEntity<>(academy.get(), HttpStatus.OK);
         }else {
@@ -53,42 +54,44 @@ public class AcademyController {
     }
 
     @GetMapping("")
-    public ResponseEntity<Page<Academy>> getAllAcademies(AcademyCriteria criteria, Pageable pageable) {
+    public ResponseEntity<Page<AcademyDto>> getAllAcademies(AcademyCriteria criteria, Pageable pageable) {
         log.debug("REST request to get "+ENTITY_NAME+" by criteria: {}", criteria);
+        Optional<String> userLogin = SecurityUtils.getCurrentUserLogin();
+        log.info(userLogin.get());
         if(criteria.getVisibility() == null ) {
             criteria.setVisibility(this.getPublicVisibility());
         }
-        Page<Academy> lists = academyQueryService.findByCriteria(criteria,pageable);
+        Page<AcademyDto> lists = academyQueryService.findByCriteria(criteria,pageable);
         return ResponseEntity.ok().body(lists);
     }
 
     @PostMapping("")
-    public ResponseEntity<Academy> createAcademy(@RequestBody Academy academy) {
+    public ResponseEntity<AcademyDto> createAcademy(@RequestBody AcademyDto academy) {
         log.debug("REST request to save "+ENTITY_NAME+" : {}", academy);
         if( academy.getId() != null ) {
             throw new BadRequestAlertException("A new contactFolder cannot already have an ID", ENTITY_NAME, "idexists");
         }
 
-        Academy result = academyService.create(academy);
+        AcademyDto result = academyService.create(academy);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString())).body(result);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Academy> updateAcademy(@RequestBody Academy academy) {
+    public ResponseEntity<AcademyDto> updateAcademy(@RequestBody AcademyDto academy) {
         log.debug("REST request to update "+ENTITY_NAME+" : {}", academy);
         if( !academyService.exists(academy.getId()) ) {
             return  ResponseEntity.notFound().build();
         }
-        Academy result = academyService.update(academy);
+        AcademyDto result = academyService.update(academy);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, result.getId().toString())).body(result);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteAcademy(@PathVariable Long id) {
         log.debug("REST request to delete "+ENTITY_NAME+" : {}", id);
-        Optional<Academy> school = academyService.findById(id);
-        if(school.isPresent()) {
-            academyService.delete(school.get());
+        Optional<AcademyDto> academyDto = academyService.findById(id);
+        if(academyDto.isPresent()) {
+            academyService.delete(academyDto.get().getId());
             return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
         } else {
             return ResponseEntity.notFound().build();
