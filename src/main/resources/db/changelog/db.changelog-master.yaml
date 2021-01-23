@@ -2,8 +2,6 @@ databaseChangeLog:
   - include:
       file: db/changelog/00000000_initial_schema.yaml
   - include:
-      file: db/changelog/00000001_address.yaml
+      file: db/changelog/00000001_school.yaml
   - include:
-      file: db/changelog/00000002_school.yaml
-  - include:
-      file: db/changelog/00000003_academy.yaml
+      file: db/changelog/00000002_academy.yaml
