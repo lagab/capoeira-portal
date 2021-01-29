@@ -5,3 +5,5 @@ databaseChangeLog:
       file: db/changelog/00000001_school.yaml
   - include:
       file: db/changelog/00000002_academy.yaml
+  - include:
+      file: db/changelog/00000003_level.yaml

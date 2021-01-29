@@ -1,0 +1,51 @@
+databaseChangeLog:
+- changeSet:
+    id: feat/21/1/level_table
+    author: lagab
+    changes:
+    - createTable:
+        columns:
+        - column:
+            autoIncrement: true
+            constraints:
+              nullable: false
+              primaryKey: true
+              primaryKeyName: LevelPK
+            name: id
+            type: BIGINT
+        - column:
+            constraints:
+              nullable: false
+            name: name
+            type: VARCHAR(50)
+        - column:
+            name: icon
+            type: VARCHAR(255)
+        - column:
+              constraints:
+                  nullable: false
+              name: activated
+              type: BIT
+        - column:
+            constraints:
+              nullable: false
+            name: phase
+            type: VARCHAR(50)
+        - column:
+            name: parent_id
+            type: BIGINT
+        tableName: Level
+
+- changeSet:
+    id: feat/21/1/level_parent_constraint
+    author: lagab
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: parent_id
+        baseTableName: level
+        constraintName: FK/feat/21/1/level_parent
+        deferrable: false
+        initiallyDeferred: false
+        referencedColumnNames: id
+        referencedTableName: level
+        validate: true
