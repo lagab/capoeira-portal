@@ -5,6 +5,7 @@ import com.lagab.capoeira.capoeiraportal.service.LevelService;
 import com.lagab.capoeira.capoeiraportal.service.dto.LevelDto;
 import com.lagab.capoeira.capoeiraportal.web.rest.errors.BadRequestAlertException;
 import com.lagab.capoeira.capoeiraportal.web.rest.util.HeaderUtil;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -16,18 +17,15 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/")
+@RequiredArgsConstructor
 public class LevelController {
 
     private final Logger log = LoggerFactory.getLogger(SchoolController.class);
 
     private final LevelService levelService;
 
-    private static final String LEVEL_ENDPOINT = "level";
+    private static final String LEVEL_ENDPOINT = "/level";
     private static final String ENTITY_NAME = "level";
-
-    public LevelController(LevelService levelService) {
-        this.levelService = levelService;
-    }
 
 
     @GetMapping(LEVEL_ENDPOINT + "/{id:.+}")

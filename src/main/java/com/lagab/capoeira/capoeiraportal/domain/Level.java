@@ -25,6 +25,7 @@ public class Level implements Serializable {
     private Long id;
     private String name;
     private String icon;
+    @Enumerated(EnumType.STRING)
     private Phase phase;
     private boolean activated;
 

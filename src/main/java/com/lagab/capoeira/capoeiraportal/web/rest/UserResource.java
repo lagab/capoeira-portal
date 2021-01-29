@@ -3,17 +3,18 @@ package com.lagab.capoeira.capoeiraportal.web.rest;
 
 import com.lagab.capoeira.capoeiraportal.config.Constants;
 import com.lagab.capoeira.capoeiraportal.domain.User;
-import com.lagab.capoeira.capoeiraportal.web.rest.errors.BadRequestAlertException;
 import com.lagab.capoeira.capoeiraportal.errors.EmailAlreadyUsedException;
-import com.lagab.capoeira.capoeiraportal.web.rest.errors.LoginAlreadyUsedException;
 import com.lagab.capoeira.capoeiraportal.repository.UserRepository;
 import com.lagab.capoeira.capoeiraportal.security.Authorities;
 import com.lagab.capoeira.capoeiraportal.service.MailService;
 import com.lagab.capoeira.capoeiraportal.service.UserService;
 import com.lagab.capoeira.capoeiraportal.service.dto.UserDTO;
+import com.lagab.capoeira.capoeiraportal.web.rest.errors.BadRequestAlertException;
+import com.lagab.capoeira.capoeiraportal.web.rest.errors.LoginAlreadyUsedException;
 import com.lagab.capoeira.capoeiraportal.web.rest.util.HeaderUtil;
 import com.lagab.capoeira.capoeiraportal.web.rest.util.PaginationUtil;
 import com.lagab.capoeira.capoeiraportal.web.rest.util.ResponseUtil;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -58,6 +59,7 @@ import java.util.Optional;
  */
 @RestController
 @RequestMapping("/api")
+@RequiredArgsConstructor
 public class UserResource {
 
     private final Logger log = LoggerFactory.getLogger(UserResource.class);
@@ -70,12 +72,6 @@ public class UserResource {
     private final UserRepository userRepository;
 
     private final MailService mailService;
-
-    public UserResource(UserService userService, UserRepository userRepository, MailService mailService) {
-        this.userService = userService;
-        this.userRepository = userRepository;
-        this.mailService = mailService;
-    }
 
     /**
      * {@code POST  /users}  : Creates a new user.

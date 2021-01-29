@@ -55,7 +55,7 @@ public class AcademyService {
 
     @Transactional(readOnly = true)
     public Optional<AcademyDto> findById(Long id){
-        return Optional.ofNullable(academyMapper.from(academyRepository.findById(id).get()));
+        return Optional.ofNullable(academyMapper.from(academyRepository.findById(id).orElse(null)));
     }
 
     @Transactional(readOnly = true)

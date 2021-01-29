@@ -10,7 +10,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-
 import javax.inject.Inject;
 import java.util.List;
 import java.util.Optional;
@@ -53,12 +52,12 @@ public class SchoolService {
 
     @Transactional(readOnly = true)
     public Optional<SchoolDto> findById(Long id){
-        return Optional.ofNullable(schoolMapper.from(schoolRepository.findById(id).get()));
+        return Optional.ofNullable(schoolMapper.from(schoolRepository.findById(id).orElse(null)));
     }
 
     @Transactional(readOnly = true)
     public Optional<SchoolDto> searchByName(String name){
-        return Optional.ofNullable(schoolMapper.from(schoolRepository.findByName(name).get()));
+        return Optional.ofNullable(schoolMapper.from(schoolRepository.findByName(name).orElse(null)));
     }
 
 

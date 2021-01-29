@@ -1,17 +1,18 @@
 package com.lagab.capoeira.capoeiraportal.web.rest;
 
 import com.lagab.capoeira.capoeiraportal.domain.User;
-import com.lagab.capoeira.capoeiraportal.web.rest.errors.EmailAlreadyUsedException;
-import com.lagab.capoeira.capoeiraportal.web.rest.errors.InvalidPasswordException;
-import com.lagab.capoeira.capoeiraportal.web.rest.errors.LoginAlreadyUsedException;
 import com.lagab.capoeira.capoeiraportal.repository.UserRepository;
 import com.lagab.capoeira.capoeiraportal.security.SecurityUtils;
 import com.lagab.capoeira.capoeiraportal.service.MailService;
 import com.lagab.capoeira.capoeiraportal.service.UserService;
 import com.lagab.capoeira.capoeiraportal.service.dto.PasswordChangeDTO;
 import com.lagab.capoeira.capoeiraportal.service.dto.UserDTO;
+import com.lagab.capoeira.capoeiraportal.web.rest.errors.EmailAlreadyUsedException;
+import com.lagab.capoeira.capoeiraportal.web.rest.errors.InvalidPasswordException;
+import com.lagab.capoeira.capoeiraportal.web.rest.errors.LoginAlreadyUsedException;
 import com.lagab.capoeira.capoeiraportal.web.rest.vm.KeyAndPasswordVM;
 import com.lagab.capoeira.capoeiraportal.web.rest.vm.ManagedUserVM;
+import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,6 +28,7 @@ import java.util.Optional;
  */
 @RestController
 @RequestMapping("/api")
+@RequiredArgsConstructor
 public class AccountResource {
 
     private final static String ENDPOINT_ACCOUNT = "/account";
@@ -41,17 +43,8 @@ public class AccountResource {
     private final Logger log = LoggerFactory.getLogger(AccountResource.class);
 
     private final UserRepository userRepository;
-
     private final UserService userService;
-
     private final MailService mailService;
-
-    public AccountResource(UserRepository userRepository, UserService userService, MailService mailService) {
-
-        this.userRepository = userRepository;
-        this.userService = userService;
-        this.mailService = mailService;
-    }
 
     /**
      * {@code POST  /register} : register the user.
