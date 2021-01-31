@@ -1,10 +1,11 @@
 package com.lagab.capoeira.capoeiraportal.domain;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.lagab.capoeira.capoeiraportal.domain.enums.Style;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -14,6 +15,8 @@ import java.io.Serializable;
 @Entity
 @Getter
 @Setter
+@JsonIgnoreProperties({"hibernateLazyInitializer"})
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class School extends LocalizableEntity implements Serializable{
 
     @Id

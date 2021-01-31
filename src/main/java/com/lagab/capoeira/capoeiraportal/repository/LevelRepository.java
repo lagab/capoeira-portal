@@ -17,4 +17,10 @@ public interface LevelRepository extends JpaRepository<Level, Long>, JpaSpecific
     List<Level> findAllByParentIsNullAndPhase(Phase phase);
 
     List<Level> findAllByParentIsNull();
+
+    List<Level> findAllBySchoolId(Long schoolId);
+
+    Page<Level> findAllBySchoolId(Pageable pageable, Long schoolId);
+
+    List<Level> findAllBySchoolIdAndParent(Long schoolId, Level parent);
 }

@@ -1,13 +1,17 @@
 package com.lagab.capoeira.capoeiraportal.web.rest;
 
 import com.lagab.capoeira.capoeiraportal.security.Authorities;
+import com.lagab.capoeira.capoeiraportal.service.LevelService;
 import com.lagab.capoeira.capoeiraportal.service.SchoolService;
+import com.lagab.capoeira.capoeiraportal.service.dto.LevelDto;
 import com.lagab.capoeira.capoeiraportal.service.dto.SchoolDto;
 import com.lagab.capoeira.capoeiraportal.web.rest.errors.BadRequestAlertException;
 import com.lagab.capoeira.capoeiraportal.web.rest.util.HeaderUtil;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -24,7 +28,9 @@ public class SchoolController {
     private final Logger log = LoggerFactory.getLogger(SchoolController.class);
 
     private final SchoolService schoolService;
+    private final LevelService levelService;
     private static final String SCHOOL_ENDPOINT = "/school";
+    private static final String SCHOOL_LEVEL_ENDPOINT = "/school/{shoolId}/level";
     private static final String ENTITY_NAME = "school";
 
 
@@ -72,13 +78,20 @@ public class SchoolController {
     @DeleteMapping(SCHOOL_ENDPOINT + "/{id}")
     @PreAuthorize("hasAuthority(\"" + Authorities.ADMIN + "\")")
     public ResponseEntity<Void> deleteSchool(@PathVariable Long id) {
-        log.debug("REST request to delete "+ENTITY_NAME+" : {}", id);
+        log.debug("REST request to delete " + ENTITY_NAME + " : {}", id);
         Optional<SchoolDto> school = schoolService.findById(id);
-        if(school.isPresent()) {
+        if (school.isPresent()) {
             schoolService.delete(school.get().getId());
             return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
         } else {
             return ResponseEntity.notFound().build();
         }
     }
+
+    @GetMapping(SCHOOL_LEVEL_ENDPOINT)
+    public ResponseEntity<Page<LevelDto>> findSchoolLevels(@PathVariable Long shoolId, Pageable pageable) {
+        Page<LevelDto> lists = levelService.searchBySchoolId(pageable, shoolId);
+        return ResponseEntity.ok().body(lists);
+    }
+
 }

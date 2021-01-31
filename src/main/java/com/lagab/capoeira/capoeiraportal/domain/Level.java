@@ -11,6 +11,7 @@ import org.hibernate.annotations.BatchSize;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -37,4 +38,22 @@ public class Level implements Serializable {
     @OneToMany(mappedBy = "parent", fetch = FetchType.LAZY)
     @BatchSize(size = 100)
     private List<Level> nextLevel;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "school_id", referencedColumnName = "id")
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private School school;
+
+    public List<Level> getAllLevels() {
+        return getAllLevels(this);
+    }
+
+    public List<Level> getAllLevels(Level parent) {
+        List<Level> allLevel = new ArrayList<>();
+        for (Level child : parent.getNextLevel()) {
+            allLevel.add(child);
+            allLevel.addAll(getAllLevels(child));
+        }
+        return allLevel;
+    }
 }

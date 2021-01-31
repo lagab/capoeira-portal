@@ -16,7 +16,8 @@ public class LevelDto {
     private String icon;
     private Phase phase;
     private boolean activated;
-    @JsonIgnoreProperties({"parent","nextLevel"})
-    private Level parent;
+    @JsonIgnoreProperties({"parent", "nextLevel"})
+    private LevelDto parent;
     private List<Level> nextLevel;
+    private SchoolDto school;
 }

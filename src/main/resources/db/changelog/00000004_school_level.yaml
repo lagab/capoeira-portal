@@ -1,0 +1,25 @@
+databaseChangeLog:
+  - changeSet:
+      id: feat/21/1/level_related_school_table
+      author: lagab
+      changes:
+        - addColumn:
+            tableName: Level
+            columns:
+              - column:
+                  name: school_id
+                  type: BIGINT
+
+  - changeSet:
+      id: feat/21/1/level_related_school_constraint
+      author: lagab
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: school_id
+            baseTableName: level
+            constraintName: FK/feat/21/1/level_school_foreign
+            deferrable: false
+            initiallyDeferred: false
+            referencedColumnNames: id
+            referencedTableName: school
+            validate: true
