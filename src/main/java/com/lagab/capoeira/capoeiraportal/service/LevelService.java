@@ -3,6 +3,7 @@ package com.lagab.capoeira.capoeiraportal.service;
 
 import com.lagab.capoeira.capoeiraportal.domain.Level;
 import com.lagab.capoeira.capoeiraportal.domain.enums.Phase;
+import com.lagab.capoeira.capoeiraportal.errors.InfiniteLoopException;
 import com.lagab.capoeira.capoeiraportal.repository.LevelRepository;
 import com.lagab.capoeira.capoeiraportal.service.dto.LevelDto;
 import com.lagab.capoeira.capoeiraportal.service.mapper.LevelMapper;
@@ -45,8 +46,18 @@ public class LevelService {
     }
 
     private LevelDto save(LevelDto levelDto) {
+        validateLevel(levelDto);
         Level result = levelRepository.save(levelMapper.from(levelDto));
         return levelMapper.from(result);
+    }
+
+    private void validateLevel(LevelDto levelDto) {
+        if (levelDto.getId() != null) {
+            Level level = levelRepository.getOne(levelDto.getId());
+            if (level.getAllLevels().contains(levelMapper.from(levelDto.getParent()))) {
+                throw new InfiniteLoopException("Level", "This level can't be parent of his own child");
+            }
+        }
     }
 
     public void delete(Long id) {
@@ -61,6 +72,10 @@ public class LevelService {
     @Transactional(readOnly = true)
     public Page<LevelDto> searchByPhase(Pageable pageable, Phase phase) {
         return levelRepository.findAllByPhase(pageable, phase).map(levelMapper::from);
+    }
+
+    public Page<LevelDto> searchBySchoolId(Pageable pageable, Long schoolId) {
+        return levelRepository.findAllBySchoolId(pageable, schoolId).map(levelMapper::from);
     }
 
 
