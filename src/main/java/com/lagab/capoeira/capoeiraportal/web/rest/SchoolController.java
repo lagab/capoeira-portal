@@ -25,6 +25,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class SchoolController {
 
+    private static final String HAS_AUTHORITY_SCHOOL_WRITE = "hasAuthority('" + Authorities.MASTER + "') or hasAuthority('" + Authorities.ADMIN + "')";
     private final Logger log = LoggerFactory.getLogger(SchoolController.class);
 
     private final SchoolService schoolService;
@@ -53,7 +54,7 @@ public class SchoolController {
     }
 
     @PostMapping(SCHOOL_ENDPOINT)
-    @PreAuthorize("hasAuthority(\"" + Authorities.ADMIN + "\")")
+    @PreAuthorize(HAS_AUTHORITY_SCHOOL_WRITE)
     public ResponseEntity<SchoolDto> createSchool(@RequestBody SchoolDto school) {
         log.debug("REST request to save "+ENTITY_NAME+" : {}", school);
         if( school.getId() != null ) {
@@ -65,7 +66,7 @@ public class SchoolController {
     }
 
     @PutMapping(SCHOOL_ENDPOINT + "/{id}")
-    @PreAuthorize("hasAuthority(\"" + Authorities.ADMIN + "\")")
+    @PreAuthorize(HAS_AUTHORITY_SCHOOL_WRITE)
     public ResponseEntity<SchoolDto> updateSchool(@RequestBody SchoolDto school) {
         log.debug("REST request to update "+ENTITY_NAME+" : {}", school);
         if( !schoolService.exists(school.getId()) ) {

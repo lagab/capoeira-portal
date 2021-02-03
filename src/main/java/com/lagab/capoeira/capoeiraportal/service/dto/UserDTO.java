@@ -1,5 +1,6 @@
 package com.lagab.capoeira.capoeiraportal.service.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.lagab.capoeira.capoeiraportal.config.Constants;
 import com.lagab.capoeira.capoeiraportal.domain.Authority;
 import com.lagab.capoeira.capoeiraportal.domain.User;
@@ -22,6 +23,7 @@ import java.util.stream.Collectors;
 @Getter
 @Setter
 @NoArgsConstructor
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class UserDTO {
 
     private Long id;

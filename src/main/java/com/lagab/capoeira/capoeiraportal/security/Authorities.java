@@ -11,4 +11,5 @@ public class Authorities {
     public static final String STUDENT = "ROLE_STUDENT";
 
     public static final String TEACHER = "ROLE_TEACHER";
+    public static final String MASTER = "ROLE_MASTER";
 }
