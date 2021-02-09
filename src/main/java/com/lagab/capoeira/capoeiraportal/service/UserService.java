@@ -80,7 +80,7 @@ public class UserService {
 
     public Optional<User> requestPasswordReset(String mail) {
         return userRepository.findOneByEmailIgnoreCase(mail)
-            .filter(User::getActivated)
+                .filter(User::isActivated)
             .map(user -> {
                 user.setResetKey(RandomUtil.generateResetKey());
                 user.setResetDate(Instant.now());
@@ -116,6 +116,7 @@ public class UserService {
         newUser.setLangKey(userDTO.getLangKey());
         // new user is not active
         newUser.setActivated(false);
+        newUser.setAcademy(userDTO.getAcademy());
         // new user gets registration key
         newUser.setActivationKey(RandomUtil.generateActivationKey());
         Set<Authority> authorities = new HashSet<>();
@@ -128,8 +129,8 @@ public class UserService {
     }
 
     private boolean removeNonActivatedUser(User existingUser) {
-        if (existingUser.getActivated()) {
-             return false;
+        if (existingUser.isActivated()) {
+            return false;
         }
         userRepository.delete(existingUser);
         userRepository.flush();
@@ -156,6 +157,7 @@ public class UserService {
         user.setResetKey(RandomUtil.generateResetKey());
         user.setResetDate(Instant.now());
         user.setActivated(true);
+        user.setAcademy(userDTO.getAcademy());
         if (userDTO.getAuthorities() != null) {
             Set<Authority> authorities = userDTO.getAuthorities().stream()
                 .map(authorityRepository::findById)
@@ -192,6 +194,7 @@ public class UserService {
                 user.setImageUrl(userDTO.getImageUrl());
                 user.setActivated(userDTO.isActivated());
                 user.setLangKey(userDTO.getLangKey());
+                user.setAcademy(userDTO.getAcademy());
                 Set<Authority> managedAuthorities = user.getAuthorities();
                 managedAuthorities.clear();
                 userDTO.getAuthorities().stream()

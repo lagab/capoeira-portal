@@ -61,7 +61,9 @@ public class UserDTO {
 
     private Set<String> authorities;
 
-    private  boolean admin;
+    private Long academy;
+
+    private boolean admin;
     private boolean teacher;
     private boolean student;
 
@@ -72,7 +74,7 @@ public class UserDTO {
         this.firstName = user.getFirstName();
         this.lastName = user.getLastName();
         this.email = user.getEmail();
-        this.activated = user.getActivated();
+        this.activated = user.isActivated();
         this.imageUrl = user.getImageUrl();
         this.langKey = user.getLangKey();
         this.createdBy = user.getCreatedBy();
@@ -80,11 +82,12 @@ public class UserDTO {
         this.lastModifiedBy = user.getLastModifiedBy();
         this.lastModifiedDate = user.getLastModifiedDate();
         this.authorities = user.getAuthorities().stream()
-            .map(Authority::getName)
-            .collect(Collectors.toSet());
-        admin =  authorities.contains(Authorities.ADMIN);
-        teacher = authorities.contains(Authorities.TEACHER);
-        student = authorities.contains(Authorities.TEACHER);
+                .map(Authority::getName)
+                .collect(Collectors.toSet());
+        this.admin = authorities.contains(Authorities.ADMIN);
+        this.teacher = authorities.contains(Authorities.TEACHER);
+        this.student = authorities.contains(Authorities.TEACHER);
+        this.academy = user.getAcademy();
     }
 
 
