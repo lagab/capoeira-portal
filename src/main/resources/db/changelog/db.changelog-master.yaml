@@ -9,3 +9,5 @@ databaseChangeLog:
       file: db/changelog/00000003_level.yaml
   - include:
       file: db/changelog/00000004_school_level.yaml
+  - include:
+      file: db/changelog/00000005_classroom.yaml

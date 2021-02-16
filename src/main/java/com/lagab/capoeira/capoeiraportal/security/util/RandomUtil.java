@@ -12,11 +12,19 @@ public final class RandomUtil {
     }
 
     public static String generateRandomAlphanumericString() {
-        return RandomStringUtils.random(20, 0, 0, true, true, (char[])null, SECURE_RANDOM);
+        return RandomStringUtils.random(DEF_COUNT, 0, 0, true, true, (char[]) null, SECURE_RANDOM);
+    }
+
+    public static String generateRandomAlphanumericString(int length) {
+        return RandomStringUtils.random(length, 0, 0, true, true, (char[]) null, SECURE_RANDOM);
     }
 
     public static String generatePassword() {
         return generateRandomAlphanumericString();
+    }
+
+    public static String generateKey(int length) {
+        return generateRandomAlphanumericString(length);
     }
 
     public static String generateActivationKey() {

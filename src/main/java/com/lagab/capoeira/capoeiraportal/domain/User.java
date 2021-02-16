@@ -1,6 +1,8 @@
 package com.lagab.capoeira.capoeiraportal.domain;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.lagab.capoeira.capoeiraportal.config.Constants;
 import lombok.Getter;
 import lombok.Setter;
@@ -25,6 +27,7 @@ import java.util.Set;
 @Entity
 @Table(name = "app_user")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class User extends AbstractAuditingEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;

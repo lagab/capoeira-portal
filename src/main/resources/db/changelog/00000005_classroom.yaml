@@ -1,0 +1,188 @@
+databaseChangeLog:
+  - changeSet:
+      id: feat/21/2/classroom_table
+      author: lagab
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  autoIncrement: true
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: ClasroomPK
+                  name: id
+                  type: BIGINT
+              - column:
+                  constraints:
+                    nullable: false
+                  name: name
+                  type: VARCHAR(50)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: slug
+                  type: VARCHAR(100)
+              - column:
+                  name: description
+                  type: VARCHAR(255)
+              - column:
+                  name: season
+                  type: YEAR
+              - column:
+                  name: theme
+                  type: VARCHAR(50)
+              - column:
+                  name: visibility
+                  type: VARCHAR(20)
+              - column:
+                  name: activation_code
+                  type: VARCHAR(20)
+              - column:
+                  name: academy_id
+                  type: BIGINT
+              - column:
+                  name: owner_id
+                  type: BIGINT
+            tableName: Classroom
+
+  - changeSet:
+      id: feat/21/2/classroom_constraints
+      author: lagab
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: owner_id
+            baseTableName: classroom
+            constraintName: FK/feat/21/2/classroom_owner
+            referencedColumnNames: id
+            referencedTableName: app_user
+        - addForeignKeyConstraint:
+            baseColumnNames: academy_id
+            baseTableName: classroom
+            constraintName: FK/feat/21/2/classroom_academy
+            referencedColumnNames: id
+            referencedTableName: academy
+  - changeSet:
+      id: feat/21/2/topic_table
+      author: lagab
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  autoIncrement: true
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: TopicPK
+                  name: id
+                  type: BIGINT
+              - column:
+                  constraints:
+                    nullable: false
+                  name: name
+                  type: VARCHAR(50)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: slug
+                  type: VARCHAR(100)
+              - column:
+                  name: classroom_id
+                  type: BIGINT
+            tableName: Topic
+        - addForeignKeyConstraint:
+            baseColumnNames: classroom_id
+            baseTableName: topic
+            constraintName: FK/feat/21/2/topic_classroom
+            referencedColumnNames: id
+            referencedTableName: classroom
+  - changeSet:
+      id: feat/21/2/add_academy_in_user
+      author: lagab
+      changes:
+        - addColumn:
+            columns:
+              - column:
+                  name: academy_id
+                  type: BIGINT
+            tableName: app_user
+        - addForeignKeyConstraint:
+            baseColumnNames: academy_id
+            baseTableName: app_user
+            constraintName: FK/feat/21/2/user_academy
+            referencedColumnNames: id
+            referencedTableName: academy
+  - changeSet:
+      id: feat/21/2/classroom_teacher
+      author: lagab
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                  name: teacher_id
+                  type: BIGINT
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                  name: classroom_id
+                  type: BIGINT
+            tableName: classroom_teacher
+        - addForeignKeyConstraint:
+            baseColumnNames: teacher_id
+            baseTableName: classroom_teacher
+            constraintName: FK/feat/21/2/classroom_teacher_user
+            deferrable: false
+            initiallyDeferred: false
+            referencedColumnNames: id
+            referencedTableName: app_user
+            validate: true
+        - addForeignKeyConstraint:
+            baseColumnNames: classroom_id
+            baseTableName: classroom_teacher
+            constraintName: FK/feat/21/2/classroom_teacher_class
+            deferrable: false
+            initiallyDeferred: false
+            referencedColumnNames: id
+            referencedTableName: classroom
+            validate: true
+  - changeSet:
+      id: feat/21/2/classroom_students
+      author: lagab
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                  name: student_id
+                  type: BIGINT
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                  name: classroom_id
+                  type: BIGINT
+            tableName: classroom_student
+        - addForeignKeyConstraint:
+            baseColumnNames: student_id
+            baseTableName: classroom_student
+            constraintName: FK/feat/21/2/classroom_student_user
+            deferrable: false
+            initiallyDeferred: false
+            referencedColumnNames: id
+            referencedTableName: app_user
+            validate: true
+        - addForeignKeyConstraint:
+            baseColumnNames: classroom_id
+            baseTableName: classroom_student
+            constraintName: FK/feat/21/2/classroom_student_class
+            deferrable: false
+            initiallyDeferred: false
+            referencedColumnNames: id
+            referencedTableName: classroom
+            validate: true
