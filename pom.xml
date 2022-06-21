@@ -23,7 +23,7 @@
 		<!-- The javassist version should match the one managed by
         https://mvnrepository.com/artifact/org.hibernate/hibernate-core/${hibernate.version} -->
 		<javassist.version>3.27.0-GA</javassist.version>
-		<mysql-connector.version>8.0.20</mysql-connector.version>
+		<mysql-connector.version>8.0.28</mysql-connector.version>
 		<springfox-swagger.version>2.9.2</springfox-swagger.version>
 		<springfox-swagger-ui.version>2.9.2</springfox-swagger-ui.version>
 		<liquibase.version>3.10.0</liquibase.version>
